@@ -1,4 +1,6 @@
 # coding = utf-8
+import time
+
 from selenium import webdriver
 from sqlstr import SQLSTR
 from sqlalchemy.ext.declarative import declarative_base
@@ -22,7 +24,35 @@ class DongFangCaiFuWebSpider():
         :return:
         个股资金流向的数据结构
         """
-        self.brower.get(URL)
+        self.brower.get(self.URL)
+
+        # 获取当前页面流量数据
+        def get_flow():
+            _flows = self.brower.find_element_by_xpath("//div[@class='main']//div[@class='content']/table/tbody")
+            flows = _flows.text.split('\n')
+            return flows
+
+        # next page
+        # next_page = self.brower.find_element_by_xpath("//div[@class='PageNav']/div").find_element_by_link_text('下一页')
+        while True:
+            # 不到最后一页
+            flows = get_flow()
+            print(flows)
+
+            next_page = self.brower.find_element_by_xpath("//div[@class='PageNav']/div").find_element_by_link_text('下一页')
+            if next_page.get_attribute('class') == 'nolink':
+                break
+
+            next_page.click()
+            time.sleep(3)
+            print('next page!')
+
+
+
+
+
+
+
 
 
 Base = declarative_base()
@@ -64,3 +94,5 @@ class SqlManager():
 if __name__ == '__main__':
     dfcf = DongFangCaiFuWebSpider()
     sql = SqlManager()
+
+    dfcf.scrapy_web()
