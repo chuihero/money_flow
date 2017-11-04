@@ -80,6 +80,8 @@ class StockMoneyFlow(Base):
 
     date = Column(Date,primary_key=True)
     code = Column(String(6),primary_key=True)
+    price = Column(Float)
+    net_change = Column(Float)
     main_fund = Column(Float)
     main_fund_percent = Column(Float)
     super_bid = Column(Float)
@@ -121,6 +123,8 @@ class SqlManager():
             # 判断是否停牌
             if '-' == i[6]\
                 or '-' == i[7]:
+                flow.price = None
+                flow.net_change = None
                 flow.main_fund = None
                 flow.main_fund_percent = None
                 flow.super_bid = None
@@ -132,6 +136,8 @@ class SqlManager():
                 flow.small_bid = None
                 flow.small_percent = None
             else:
+                flow.price = float(re.findall(r'(\d*.?\d+)',i[6])[0])
+                flow.net_change = float(re.findall(r'(\d*.?\d+)',i[7])[0])
                 if '-'==i[8] or '-'==i[9]:
                     flow.main_fund = None
                     flow.main_fund_percent = None
@@ -184,7 +190,8 @@ class SqlManager():
         session = Session()
         for i in self.items:
             session.add(i)
-            session.commit()
+
+        session.commit()
 
 
 
