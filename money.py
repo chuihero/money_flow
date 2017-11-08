@@ -188,8 +188,13 @@ class SqlManager():
         """
         Session = sessionmaker(bind=self.sql)
         session = Session()
+        primary_code = [] # 防止出现duplicate key的情况
         for i in self.items:
+            # 重复数据
+            if i.code in primary_code:
+                continue
             session.add(i)
+            primary_code.append(i.code)
 
         session.commit()
 
