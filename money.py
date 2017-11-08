@@ -197,6 +197,7 @@ class SqlManager():
             primary_code.append(i.code)
 
         session.commit()
+        print('本次更新资金流向个股共%s个。'%(len(primary_code)))
 
 
 
