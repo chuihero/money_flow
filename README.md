@@ -1,3 +1,7 @@
+# 项目说明
+
+爬取东方财富网中个股资金流，并存入数据库中
+
 ## 依赖库
 - selenium
 - phantomjs
@@ -5,11 +9,8 @@
 - sqlalchemy
 - pymysql
 
+  
+  
 
-
-```python
-import selenium
-
-```
 
  
