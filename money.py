@@ -63,7 +63,7 @@ class DongFangCaiFuWebSpider():
 
             while current_page == self.brower.find_element_by_xpath("//div[@class='PageNav']/div/span[@class='at']").text:
                 time.sleep(3)
-            print('next page!')
+            print('next page! Now page is %s'%now_page)
 
         return money_flows
 
